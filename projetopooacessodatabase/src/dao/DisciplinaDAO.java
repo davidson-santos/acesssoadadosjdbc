@@ -9,10 +9,13 @@ import conexao.Conexao;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import modelo.Disciplina;
 
 /**
@@ -46,4 +49,49 @@ public class DisciplinaDAO {
 
     }
 
+    
+   public List<Disciplina> consulta(){
+       Connection con = Conexao.getConexao();
+       PreparedStatement stmt = null;
+       
+       ResultSet rs = null;
+       
+       
+       List<Disciplina> disciplinas = new ArrayList<Disciplina>();
+       
+       
+       try{
+           
+           stmt = con.prepareStatement("select id, nome, datainclusao from disciplina");
+           rs = stmt.executeQuery();
+           
+           while (rs.next()){
+               Disciplina disciplina =  new Disciplina();
+              
+               disciplina.setId(rs.getInt("id"));
+               disciplina.setNome(rs.getString("nome"));
+               disciplina.setDataInclusao(rs.getString("datainclusao"));
+              
+               
+               disciplinas.add(disciplina);
+               
+           }
+           
+           
+       }catch (SQLException s){
+           s.printStackTrace();
+           
+       }
+       
+        finally {
+            Conexao.fecharConexao(con, stmt);
+
+        }
+       
+      return disciplinas;
+
+       
+   }
+    
+    
 }

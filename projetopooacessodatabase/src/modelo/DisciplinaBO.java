@@ -6,6 +6,8 @@
 package modelo;
 
 import dao.DisciplinaDAO;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,7 +20,24 @@ public class DisciplinaBO {
         
         
     }
-    
+        
+    public List<Disciplina> consulta(){
+
+       DisciplinaDAO dao = new DisciplinaDAO();
+       
+       List<Disciplina> disciplinas = new ArrayList<Disciplina>();
+       
+       try{
+        
+           disciplinas =  dao.consulta();
+        
+        }catch(Exception e){
+            throw new RuntimeException("Erro ao inserir recuperar no banco de dados");
+        }
+
+       return disciplinas;
+        
+    }
     
     public void incluir(Disciplina disciplina){
         
